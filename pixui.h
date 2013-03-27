@@ -22,8 +22,8 @@ along with this code.  If not, see <http://www.gnu.org/licenses/>.
 Author: Timothy Gerstner, timgerst@cs.rutgers.edu
 
 Description: A UI to provide user constraints to the algorithm described
-  in my Thesis and related publications. See the related guide on the
-  project webpage for a description of how to use the UI.
+in my Thesis and related publications. See the related guide on the
+project webpage for a description of how to use the UI.
 */
 
 
@@ -45,36 +45,36 @@ using namespace pix_research;
 class PixUI : public AppBasic
 {
  public: 
-	PixUI(){};
+  PixUI(){};
 
   ~PixUI();
 
   //overloaded function. Prepares window settings
-	void prepareSettings(Settings * settings);
+  void prepareSettings(Settings * settings);
 
   //sets up the interface into the NODATA state
-	void setup();
+  void setup();
 
   //updates the interface. iterates the algorithm.
-	void update();
+  void update();
 
   //draws the current view based on state
-	void draw();
-	
+  void draw();
+
   //callback to handle key up events
-	void keyUp(KeyEvent event);
-  
+  void keyUp(KeyEvent event);
+
   //callback to handle key down events
-	void keyDown(KeyEvent event);
+  void keyDown(KeyEvent event);
 
   //callback to handle mouse down events
-	void mouseDown(MouseEvent e);
+  void mouseDown(MouseEvent e);
 
   //Callback to handle mouse wheel events
-	void mouseWheel(MouseEvent e);
+  void mouseWheel(MouseEvent e);
 
   //Callback to handle mouseDrag events
-	void mouseDrag(MouseEvent e);
+  void mouseDrag(MouseEvent e);
 
  private:
 
@@ -83,7 +83,7 @@ class PixUI : public AppBasic
 
   //Causes the algorithm to iterate. If in the Weighting mode, initializes
   //the Pix object.
-	void Process();
+  void Process();
 
   //calls Pix object functions to reassociate superpixels to colors in the
   //palette
@@ -111,7 +111,7 @@ class PixUI : public AppBasic
   void DrawPalette();
 
   //draws the preview window
-	void DrawPreview();
+  void DrawPreview();
 
   //draws the current message to the interface
   void DrawMessage();
@@ -151,12 +151,12 @@ class PixUI : public AppBasic
 
   //draws weights to the weight map based on the current paint
   //queue
-	void PaintWeight();
+  void PaintWeight();
 
   //returns a list of all pixel positions within the brush radius
   //from the given center position.
   std::list<cv::Vec2i> GetPixelBrush(cv::Vec2i center);
-  
+
   //Sets the currently selected color to the value chosen by the user
   void SetColor();
 
@@ -164,25 +164,25 @@ class PixUI : public AppBasic
   void UpdateWeightImg();
 
   //opens a dialog to load a new Project from a source image
-	void NewProj();
+  void NewProj();
 
   //opens a dialog to load a previous project 
-	void LoadProj();
+  void LoadProj();
 
   //resets the interface. Will retain any previously draw weight maps unless it
   //is called while in the weighting state.
   void Reset();
 
   //opens a dialog to saves the curernt Project as a .pix file
-	void SaveProj();
+  void SaveProj();
 
   //saves the current output as a PNG image
-	void SaveImg();
+  void SaveImg();
 
   //Creates a dialog box to open a file. exts is a list of valid extensions.
   //Returns the path of the file to be opened.
-	std::string OpenFileDialog(std::vector<std::string> exts);
-	
+  std::string OpenFileDialog(std::vector<std::string> exts);
+
   //creates a dialog box to save a file. exts is a list of valid extensions. 
   //Returns the path of the file to be saved. If the path does not contain an
   //extension, the first extension on the list is automatically added to the 
@@ -191,27 +191,27 @@ class PixUI : public AppBasic
 
   Pix * pix_;
   gl::Texture input_img_, output_img_, average_img_, weight_img_;
-	gl::Texture lock_img_, select_img_, palette_label_, preview_label_;
+  gl::Texture lock_img_, select_img_, palette_label_, preview_label_;
   int output_width_, output_height_, max_palette_size_;
-	int previous_width_, previous_height_;
-	cv::Mat input_weights;
+  int previous_width_, previous_height_;
+  cv::Mat input_weights;
   STATE state_;
   interface bar_;
-	bool fixed_are_visible_;
-	bool output_img_is_outdated_;
-	bool weight_img_is_outdated_;
-	bool output_is_hidden_;
-	bool superpixels_are_visible_;
-	float slic_factor_, smooth_factor_, sigma_position_, sigma_color_;
+  bool fixed_are_visible_;
+  bool output_img_is_outdated_;
+  bool weight_img_is_outdated_;
+  bool output_is_hidden_;
+  bool superpixels_are_visible_;
+  float slic_factor_, smooth_factor_, sigma_position_, sigma_color_;
   float saturation_, previous_saturation_;
-	float brush_size_, brush_weight_;
-	float transparency_;
-	ci::Color color_picker_;
+  float brush_size_, brush_weight_;
+  float transparency_;
+  ci::Color color_picker_;
   std::string message_;
-	std::queue<std::pair<cv::Vec2i, MOUSECLICK>> paint_queue_;
-	std::vector<bool> selected_colors;
-	std::list<int> selected_list;
-	ci::Font font_;
+  std::queue<std::pair<cv::Vec2i, MOUSECLICK>> paint_queue_;
+  std::vector<bool> selected_colors;
+  std::list<int> selected_list;
+  ci::Font font_;
 
-	
+
 };

@@ -26,45 +26,45 @@ Author: Timothy Gerstner, timgerst@cs.rutgers.edu
 
 stateList::stateList(int maxSize)
 {
-	mHead = new stateNode(new pixState());
-	mCurr = mHead;
-	mMaxSize = maxSize;
-	mCurSize = 1;
+  head_ = new stateNode(new pixState());
+  current_ = head_;
+  max_size_ = maxSize;
+  current_size_ = 1;
 }
 
 void stateList::push_copy()
 {
-	stateNode * next = new stateNode(new pixState(*(mCurr->val)));
-	
-	stateNode * delme = mCurr->next;
-	while(delme != NULL)
-	{
-		stateNode * delnext = delme->next;
-		delete delme;
-		delme = delnext;
-		mCurSize--;
-	}
+  stateNode * next = new stateNode(new pixState(*(current_->val)));
 
-	mCurr->next = next;
-	next->prev = mCurr;
-	mCurr = next;
-	mCurSize++;
+  stateNode * delme = current_->next;
+  while(delme != NULL)
+  {
+    stateNode * delnext = delme->next;
+    delete delme;
+    delme = delnext;
+    current_size_--;
+  }
 
-	while(mCurSize > mMaxSize)
-	{
-		mHead = mHead->next;
-		delete mHead->prev;
-		mHead->prev = NULL;
-		mCurSize--;
-	}
+  current_->next = next;
+  next->prev = current_;
+  current_ = next;
+  current_size_++;
+
+  while(current_size_ > max_size_)
+  {
+    head_ = head_->next;
+    delete head_->prev;
+    head_->prev = NULL;
+    current_size_--;
+  }
 
 }
 
 void stateList::stepBack()
 {
-	if(mCurr->prev != NULL) mCurr = mCurr->prev;
+  if(current_->prev != NULL) current_ = current_->prev;
 }
 void stateList::stepForward()
 {
-	if(mCurr->next != NULL) mCurr= mCurr->next;
+  if(current_->next != NULL) current_= current_->next;
 }

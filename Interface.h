@@ -22,7 +22,7 @@ along with this code.  If not, see <http://www.gnu.org/licenses/>.
 Author: Timothy Gerstner, timgerst@cs.rutgers.edu
 
 Description: Adds additional functionality to cinder's adaptation of 
-  anttweakbar. Specifically, methods to set the position and size.
+anttweakbar. Specifically, methods to set the position and size.
 */
 
 
@@ -37,23 +37,23 @@ using namespace cinder;
 
 class interface : public InterfaceGl
 {
-public:
-	interface(){};
-	interface (const std::string &title, const Vec2i &size, const ColorA colorA = ColorA(.3f,.3f,.3f,.4f)) : InterfaceGl(title, size, colorA){};
-	inline void setPosition(int x, int y)
-	{
-		std::stringstream ss;
-		ss << "`" << (std::string)TwGetBarName(mBar.get()) << "`";
-		ss << " position=";
-		ss << "`" << x << " " << y << "`";
-		TwDefine(ss.str().c_str());
-	}
-	inline void setSize(int w, int h)
-	{
-		std::stringstream ss;
-		ss << "`" << (std::string)TwGetBarName(mBar.get()) << "`";
-		ss << " size=";
-		ss << "`" << w << " " << h << "`";
-		TwDefine(ss.str().c_str());
-	}
+ public:
+  interface(){};
+  interface (const std::string &title, const Vec2i &size, const ColorA colorA = ColorA(.3f,.3f,.3f,.4f)) : InterfaceGl(title, size, colorA){};
+  inline void setPosition(int x, int y)
+  {
+    std::stringstream ss;
+    ss << "`" << (std::string)TwGetBarName(mBar.get()) << "`";
+    ss << " position=";
+    ss << "`" << x << " " << y << "`";
+    TwDefine(ss.str().c_str());
+  }
+  inline void setSize(int w, int h)
+  {
+    std::stringstream ss;
+    ss << "`" << (std::string)TwGetBarName(mBar.get()) << "`";
+    ss << " size=";
+    ss << "`" << w << " " << h << "`";
+    TwDefine(ss.str().c_str());
+  }
 };

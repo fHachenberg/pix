@@ -22,8 +22,8 @@ along with this code.  If not, see <http://www.gnu.org/licenses/>.
 Author: Timothy Gerstner, timgerst@cs.rutgers.edu
 
 Description: An implementation of the algorithm described in my
-  Pixelated Abstraction thesis and related publications. Please see
-  the thesis for details. 
+Pixelated Abstraction thesis and related publications. Please see
+the thesis for details. 
 */
 
 #pragma once
@@ -44,11 +44,11 @@ class Pix {
   //be set using relevant methods before initialization. The input image
   //should be an 8U, 3 channel rgb image.
   Pix(const cv::Mat& img_input, int w, int h, int p);
-  
+
   //Constructs a new Pix Object from a file a .pix file from a previous session
   //Do not need to call initialize if using this constructor.
   Pix(std::string filename);
-  
+
   //
   ~Pix();
 
@@ -64,7 +64,7 @@ class Pix {
 
   //associates superpixels with colors in the palette
   void AssociatePalette();
-  
+
   //returns the current palette, subclusters are treated as a single color.
   std::vector<cv::Vec3f> GetPalette();
 
@@ -73,25 +73,25 @@ class Pix {
 
   //returns the input image with the superpixel segmentation visualized
   void GetRegionImage(cv::Mat& img);
- 
+
   //Sets the input weights. Only call before initialization.
   inline void set_input_weights(cv::Mat& w){w.copyTo(input_weights_);}
- 
+
   //Sets the laplacian factor used to smooth the superpixel positions.
   inline void set_laplacian_factor(float f){smooth_pos_factor_ = f;}
- 
+
   //Sets the bilateral filter parameters used to smooth the superpixel colors.
   inline void SetBilateralParams(float sigCol, float sigPos){
     sigma_color_ = sigCol; sigma_position_ = sigPos;}
-  
+
   //Sets the weight factor used to normalize Color and Spatial components in
   //the SLIC distance metric. Value should be in the range [0,1].
   inline void setSlicFact(float f){slic_factor_ = f;}
-  
+
   //Sets the saturation value used in the output. Values >1 increase saturation
   //and values <1 decrease saturation.
   inline void SetSaturation(float f){GetCurrentState()->saturation = f;}
-  
+
   //Sets the lock of a the color at the given index. Locked colors do not 
   //update during iteration.
   inline void SetColorLock(int index, bool locked){
@@ -108,17 +108,17 @@ class Pix {
   //output image.
   inline void SetPixelConstraints(cv::Vec2i pixel, const std::list<int>& constraints) {
     GetCurrentState()->pixel_constraints[vec2idx(pixel)] = 
-    std::list<int>(constraints);
+      std::list<int>(constraints);
     converged_flag_ = false;
   }
-  
+
   //Sets the color in the palette at the given index to the given color.
   inline void SetColor(int index, cv::Vec3f color) {
     cv::Vec3f lab = rgb2lab(color);
-	  lab[1] /= GetCurrentState()->saturation;
-	  lab[2] /= GetCurrentState()->saturation;
-	
-	  GetCurrentState()->palette[index] = rgb2lab(color);
+    lab[1] /= GetCurrentState()->saturation;
+    lab[2] /= GetCurrentState()->saturation;
+
+    GetCurrentState()->palette[index] = rgb2lab(color);
     converged_flag_ = false;
   }
 
@@ -126,9 +126,9 @@ class Pix {
   //superpixel at the given location
   inline void SetColorFromSP(int index, cv::Vec2i superpixel) {
     cv::Vec3f superpixel_color = 
-    GetCurrentState()->superpixel_color.at<cv::Vec3f>(superpixel[1],
-                                                      superpixel[0]);
-	  GetCurrentState()->palette[index] = superpixel_color;
+      GetCurrentState()->superpixel_color.at<cv::Vec3f>(superpixel[1],
+      superpixel[0]);
+    GetCurrentState()->palette[index] = superpixel_color;
     converged_flag_ = false;
   }
 
@@ -138,8 +138,8 @@ class Pix {
   //returns an 8U, rgb image representing the superpixel color values
   inline void GetSuperpixelImage(cv::Mat& img) {
     cv::Mat rgb;
-	  cvtColor(GetCurrentState()->superpixel_color, rgb, CV_Lab2RGB);
-	  rgb.convertTo(img, CV_8UC3, 255.0);
+    cvtColor(GetCurrentState()->superpixel_color, rgb, CV_Lab2RGB);
+    rgb.convertTo(img, CV_8UC3, 255.0);
   }
 
   //returns a vector the same size as the palette, indicating whether
@@ -159,7 +159,7 @@ class Pix {
 
   //returns the current iteration number
   inline int get_iteration(){return GetCurrentState()->iteration;}
-  
+
   //returns the width of the input image
   inline int get_input_width(){return input_width_;}
 
@@ -178,13 +178,13 @@ class Pix {
   //reloads the last saved state. Does nothing if no previous state exists.
   inline void Undo() {
     state_list_->stepBack();
-	  UpdateSuperpixelMapping();
+    UpdateSuperpixelMapping();
   }
 
   //reloads the next saved state. Dones nothing if no such state exists.
   inline void Redo() {
     state_list_->stepForward();
-	  UpdateSuperpixelMapping();
+    UpdateSuperpixelMapping();
   }
 
   //saves the current state. This removes any existing states after the current
@@ -195,69 +195,69 @@ class Pix {
 
   //converts the index value to the equivelant output pixel position
   inline cv::Vec2i idx2vec(int index) {
-	  return cv::Vec2i( index % output_width_, 
+    return cv::Vec2i( index % output_width_, 
       (int)floor(((float)index) / output_width_));
   }
 
   //converts the ouput pixel position to the equivelant 1D array index
   inline int vec2idx(cv::Vec2i v) {
-	  return v[0] + output_width_*v[1];
+    return v[0] + output_width_*v[1];
   }
 
  private: 
-	//Updates the mapping of input pixels to superpixels
+  //Updates the mapping of input pixels to superpixels
   void UpdateSuperpixelMapping();
 
   //Updates superpixel color and spatial values
   void UpdateSuperpixelMeans();
 
   //Smooths the superpixel positions using laplacian smoothing.
-	void SmoothSuperpixelPositions();
+  void SmoothSuperpixelPositions();
 
   //Smooths the superpixel colors using a bilateral filter. 
-	void SmoothSuperpixelColors();
-	
-	//Refines the palette based on superpixel association to colors
-	float RefinePalette();
-	
+  void SmoothSuperpixelColors();
+
+  //Refines the palette based on superpixel association to colors
+  float RefinePalette();
+
   //Checks to see if any color in the palette needs to be split. Calls 
   //SplitColor() on any such colors. If the maximum palette size is reached, 
   //the palette_maxed_flag_ flag is set to true and the method calls 
   //CondensePalette(). If palette_maxed_flag_ flag == true, does nothing.
-	void ExpandPalette();
+  void ExpandPalette();
 
   //Splits the color at the given index's superpixels into two independent 
   //superpixels, each represented by subsuperpixels
-	void SplitColor(int pair_index);
+  void SplitColor(int pair_index);
 
-	//Removes subsuperpixels in the palette and represents each color as a single
+  //Removes subsuperpixels in the palette and represents each color as a single
   //superpixel (no subsuperpixels)
-	void CondensePalette();
+  void CondensePalette();
 
   // returns the largest Eigenvector and Eigenvalue of the color in the palette
   //at the given index.
   std::pair<cv::Vec3f, float> GetMaxEigen(int palette_index);
 
   //returns the palette with subsuperpixels set to their weighted average
-	std::vector<cv::Vec3f> GetAveragedPalette();
+  std::vector<cv::Vec3f> GetAveragedPalette();
 
-	//returns the current algorithm state
-	inline pixState * GetCurrentState(){return state_list_->getCur();}
+  //returns the current algorithm state
+  inline pixState * GetCurrentState(){return state_list_->getCur();}
 
   int output_width_, output_height_, input_width_, input_height_, max_palette_size_;
-	int range_;
-	cv::Mat input_img_, output_img_;
-	cv::Mat input_weights_, superpixel_weights_;
-	cv::Mat region_map_;
-	std::vector<std::vector<cv::Vec2i> > region_list_;
-	std::vector<std::vector<float> > prob_oc_; 
-	std::vector<std::vector<float> > prob_co_; 
-	float prob_o_;
-	float slic_factor_; 
-	float smooth_pos_factor_; 
-	float temperature_; 
-	float sigma_color_, sigma_position_; 
-	bool converged_flag_, palette_maxed_flag_; 
-	stateList * state_list_; 
-	
+  int range_;
+  cv::Mat input_img_, output_img_;
+  cv::Mat input_weights_, superpixel_weights_;
+  cv::Mat region_map_;
+  std::vector<std::vector<cv::Vec2i> > region_list_;
+  std::vector<std::vector<float> > prob_oc_; 
+  std::vector<std::vector<float> > prob_co_; 
+  float prob_o_;
+  float slic_factor_; 
+  float smooth_pos_factor_; 
+  float temperature_; 
+  float sigma_color_, sigma_position_; 
+  bool converged_flag_, palette_maxed_flag_; 
+  stateList * state_list_; 
+
 };
