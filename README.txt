@@ -1,0 +1,50 @@
+===================================================================
+License
+=================================================================== 
+Copyright (c) 2013, Timothy Gerstner, All rights reserved.
+
+This code is part of the prototype C++ implementation of our 
+paper/ my thesis.
+
+Public repository: https://github.com/timgerst/pix
+Project Webpage:  http://www.research.rutgers.edu/~timgerst/
+
+This code is free software: you can redistribute it and/or modify
+it under the terms of the GNU General Public License as published by
+the Free Software Foundation, either version 3 of the License, or
+(at your option) any later version.
+
+This code is distributed in the hope that it will be useful,
+but WITHOUT ANY WARRANTY; without even the implied warranty of
+MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+GNU General Public License for more details.
+
+You should have received a copy of the GNU General Public License
+along with this code.  If not, see <http://www.gnu.org/licenses/>.
+
+====================================================================
+Disclaimer
+====================================================================
+This code is part of a research project. While effort has been made
+to keep it clean and readable, it may still contain bugs, misleading
+comments, and poorly named variables. This code is released AS IS, 
+without any warranty or support. For questions related to its 
+implementation, please see the corresponding thesis and publications.
+
+====================================================================
+Required Libraries:
+====================================================================
+Cinder 0.8.4: http://libcinder.org/
+OpenCv 2.3.0: http://opencv.willowgarage.com/wiki/
+
+====================================================================
+Description
+====================================================================
+This code is an implementation of the algorithm described in the
+"Pixelated Abstraction" Master's Thesis and the related publications:
+"Pixelated Image Abstraction" and "Pixelated Image Abstraction with
+Integrated User Constraints". The base algorithm is contained in the
+pix.h/.cpp files and requires methods/variables in the utility.h,
+const.h, and statelist.h/.cpp files to run. The PixUI class found in
+pixui.h/.cpp is an interface for the algorithm, but is not required 
+to run the algorithm itself. 
