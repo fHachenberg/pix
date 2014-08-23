@@ -24,8 +24,8 @@ Author: Timothy Gerstner, timgerst@cs.rutgers.edu
 
 
 #include "pix.h"
-#include "const.h"
 
+#include <opencv2/opencv.hpp>
 
 Pix::Pix(const cv::Mat& img_input, int w, int h, int p) {
   output_width_ = w;
@@ -336,7 +336,7 @@ void Pix::AssociatePalette() {
   //used to store updated prob(index)
   std::vector<float> new_prob_c(current_palette_size, 0.0);
   //we will recalculate prob(index|p_s)
-  prob_co_ = std::vector<std::vector<float>>(current_palette_size, 
+  prob_co_ = std::vector<std::vector<float> >(current_palette_size, 
     std::vector<float>(output_width_*output_height_, 0.0));
   double overT = -1.0f/temperature_;
 

@@ -28,13 +28,22 @@ the thesis for details.
 
 #pragma once
 
-#include "opencv2/opencv.hpp"
+#include <opencv2/opencv.hpp>
 #include "stateList.h"
 #include "utility.h"
 #include <vector>
 #include <list>
 
 using namespace pix_research;
+
+//algorithm constants
+const float kDT = .7f;
+const float kTF = 1.0f;
+const float kSubclusterPertubation = .8f;
+const float kMaxUndo = 12.0f;
+const float kPaletteErrorTolerance = 1.0f;
+const float kSubclusterTolerance = 1.6f;
+const float kT0SafteyFactor = 1.1f;
 
 class Pix {
 
@@ -133,12 +142,12 @@ class Pix {
   }
 
   //returns the input image as an 8U, rgb image
-  inline void GetInputImage(cv::Mat& img) { cvtColor(input_img_, img, CV_Lab2RGB);}
+  inline void GetInputImage(cv::Mat& img) { cv::cvtColor(input_img_, img, CV_Lab2RGB);}
 
   //returns an 8U, rgb image representing the superpixel color values
   inline void GetSuperpixelImage(cv::Mat& img) {
     cv::Mat rgb;
-    cvtColor(GetCurrentState()->superpixel_color, rgb, CV_Lab2RGB);
+    cv::cvtColor(GetCurrentState()->superpixel_color, rgb, CV_Lab2RGB);
     rgb.convertTo(img, CV_8UC3, 255.0);
   }
 
@@ -150,7 +159,7 @@ class Pix {
 
   //returns the current pixel constraints. Pixels indexed into the
   //vector in row major order.
-  inline std::vector<std::list<int>> get_pixel_constraints() {
+  inline std::vector<std::list<int> > get_pixel_constraints() {
     return GetCurrentState()->pixel_constraints;
   }
 

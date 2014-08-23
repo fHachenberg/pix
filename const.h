@@ -30,16 +30,6 @@ stored in this single, seperate file for ease of access.
 #include "cinder/app/AppBasic.h"
 
 namespace pix_research{
-
-  //algorithm constants
-  const float kDT = .7f;
-  const float kTF = 1.0f;
-  const float kSubclusterPertubation = .8f;
-  const float kMaxUndo = 12.0f;
-  const float kPaletteErrorTolerance = 1.0f;
-  const float kSubclusterTolerance = 1.6f;
-  const float kT0SafteyFactor = 1.1f;
-
   //UI constraints
   const float kBarX = 0.01f;
   const float kBarY = 0.05f;

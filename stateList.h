@@ -28,11 +28,10 @@ the overhead of undo/redo operations with the accompanying UI.
 
 #pragma once
 
-#include "opencv2/opencv.hpp"
+#include <opencv2/opencv.hpp>
 #include <vector>
 #include <list>
 
-enum STATE;
 
 struct pixState
 {
@@ -57,8 +56,8 @@ struct pixState
     palette = std::vector<cv::Vec3f>(other.palette);
     prob_c = std::vector<float>(other.prob_c);
     locked_colors = std::vector<bool>(other.locked_colors);
-    pixel_constraints = std::vector<std::list<int>>(other.pixel_constraints);
-    sub_superpixel_pairs = std::vector<std::pair<int,int>>(other.sub_superpixel_pairs);
+    pixel_constraints = std::vector<std::list<int> >(other.pixel_constraints);
+    sub_superpixel_pairs = std::vector<std::pair<int,int> >(other.sub_superpixel_pairs);
     iteration = other.iteration;
     saturation = other.saturation;
   }
