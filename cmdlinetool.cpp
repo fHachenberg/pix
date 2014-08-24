@@ -154,7 +154,9 @@ int main(int argc, char* argv[]) {
         cv::waitKey(0);  
     }
     
-    pix.SaveToFile(outputfile);
+    cv::Mat output(cv::Size(target_width, target_height), CV_32FC3);
+    pix.GetOutputImage(output);    
+    imwrite(outputfile, output);
     
     return 0;
 }
