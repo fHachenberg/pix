@@ -34,8 +34,13 @@ implementation, please see the corresponding thesis and publications.
 ====================================================================
 Required Libraries:
 ====================================================================
-Cinder 0.8.4: http://libcinder.org/
 OpenCv 2.3.0: http://opencv.willowgarage.com/wiki/
+
+If Cinder-GUI is used:
+Cinder 0.8.4: http://libcinder.org/
+
+If Python-Wrapper is created:
+Boost Python http://www.boost.org/
 
 ====================================================================
 Description
@@ -48,3 +53,29 @@ pix.h/.cpp files and requires methods/variables in the utility.h,
 const.h, and statelist.h/.cpp files to run. The PixUI class found in
 pixui.h/.cpp is an interface for the algorithm, but is not required 
 to run the algorithm itself. 
+
+====================================================================
+Build
+====================================================================
+There's Makefile present to create the commandline driver and/or the
+Python wrapper.
+The commandline driver is only dependent on OpenCV
+
+    make cmdlinedriver
+
+To build the Python wrapper, you will have to provide the path where
+pyconfig.h resides. 
+Also you will have to choose the correct Python and Boost Python 
+library versions (2.x or 3.x)
+
+Examples
+--------
+
+Python 2.7 version, Ubuntu system
+
+    make pythonwrapper
+    
+Python 3.4 version, Ubuntu system
+
+    make pythonwrapper PYTHON_INCDIR=/usr/include/python3.4m/ \
+         PYTHON_LIB=-lpython3.4 BOOST_PYTHON_LIB=-lboost_python-py34
