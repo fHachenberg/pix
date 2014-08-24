@@ -147,7 +147,7 @@ int main(int argc, char* argv[]) {
     cv::Mat result;
     pix.GetOutputImage(result);  //GetRegionImage //GetSuperpixelImage //GetOutputImage
     cv::Mat result_big(cv::Size(result.cols*4, result.rows*4), CV_8UC3);
-    cv:resize(result, result_big, cv::Size(result.cols*4, result.rows*4), 0, 0, CV_INTER_NN);
+    cv::resize(result, result_big, cv::Size(result.cols*4, result.rows*4), 0, 0, CV_INTER_NN);
     
     if(show) {
         cv::imshow( "Display window", result_big);
