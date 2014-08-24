@@ -34,9 +34,9 @@ int main(int argc, char* argv[]) {
     try {
         TCLAP::CmdLine cmd("Scales down resolution and color palette size of an image, using Timothy Gerstner's PIX algorithm.", ' ', pix_cmline_version);
         TCLAP::UnlabeledValueArg<std::string> input_arg("in", "input filename", true, "", "input filename");
-        TCLAP::UnlabeledValueArg<int> target_width_arg("width", "output width", true, 0, "width");
-        TCLAP::UnlabeledValueArg<int> target_height_arg("height", "output height", true, 0, "height");
-        TCLAP::UnlabeledValueArg<int> target_numcolors_arg("numcolors", "output number colors", true, 0, "number colors");
+        TCLAP::UnlabeledValueArg<int> target_width_arg("width", "Output width. You can specify 0 to let the width be determined by the height and reproducing the width:height ratio of the input image", true, 0, "width");
+        TCLAP::UnlabeledValueArg<int> target_height_arg("height", "Output height. You can specify 0 to let the height be determined by the width and reproducing the width:height ratio of the input image", true, 0, "height");
+        TCLAP::UnlabeledValueArg<int> target_numcolors_arg("numcolors", "Output number colors", true, 0, "number colors");
         TCLAP::ValueArg<std::string> output_arg("o", "out", "output filename", false, "", "filename");
         TCLAP::ValueArg<int> maxiter_arg("m", "max-iterations", "Maximum number of iterations", false, 128, "number iterations");
         
@@ -67,6 +67,10 @@ int main(int argc, char* argv[]) {
         inputfile = input_arg.getValue();        
         target_width = target_width_arg.getValue();
         target_height = target_height_arg.getValue();
+        if(target_width == 0 && target_height == 0) {
+            std::cerr << "You cannot specify 0 for both width and height" << std::endl;
+            return 1;
+        }        
         target_numcolors = target_numcolors_arg.getValue();
         use_alpha = use_alpha_arg.getValue();      
         outputfile = output_arg.getValue(); 
@@ -95,7 +99,13 @@ int main(int argc, char* argv[]) {
     
     //Pix expected an image in CV_32FC3 format
     cv::Mat image(cv::Size(imagei.cols, imagei.rows), CV_32FC3);
-    imagei.convertTo(image, CV_32FC3, 1/255.0);        
+    imagei.convertTo(image, CV_32FC3, 1/255.0);   
+    
+    //Invalid case of width == height == 0 is managed above
+    if(target_width == 0)
+        target_width = target_height * (static_cast<double>(imagei.cols) / imagei.rows);
+    else if (target_height == 0)
+         target_height = target_width * (static_cast<double>(imagei.rows) / imagei.cols);
     
     Pix pix(image, target_width, target_height, target_numcolors);    
     
